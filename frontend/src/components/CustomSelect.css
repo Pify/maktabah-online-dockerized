@@ -1,0 +1,17 @@
+.custom-select-style {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #343638;
+    padding: 10px;
+    height: 42px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+}
+
+.custom-select-wrapper {
+    position: relative;
+}

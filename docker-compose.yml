@@ -1,0 +1,37 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+       - "3000:80" # external 3000 -> internal nginx 80
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - library
+    environment:
+      DB_HOST: library
+      DB_PORT: ${POSTGRES_PORT:-5432}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+    restart: on-failure
+    command: ["./wait-for-it.sh", "library:5432", "--", "npm", "start"]
+
+  library:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - library_data:/var/lib/postgresql/data
+
+volumes:
+  library_data:

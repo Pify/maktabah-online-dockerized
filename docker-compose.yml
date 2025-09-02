@@ -10,16 +10,12 @@ services:
   backend:
     build:
       context: ./backend
+    env_file:
+      - ./.env
     ports:
       - "8080:8080"
     depends_on:
       - library
-    environment:
-      DB_HOST: library
-      DB_PORT: ${POSTGRES_PORT:-5432}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
     restart: on-failure
     command: ["./wait-for-it.sh", "library:5432", "--", "npm", "start"]
 

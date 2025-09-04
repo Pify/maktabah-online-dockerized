@@ -37,7 +37,7 @@ const TopAppBar: React.FC = () => {
                     </div>
                 </>) : (
                     <div className='row'>
-                        <span className="">Login</span>
+                        <label onClick={() => navigate("/login")}>Login</label>
                     </div>
                 )}
             </div>

@@ -18,11 +18,24 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DO_SSH_KEY }}
 
-      - name: Copy files to droplet
+      - name: Deploy code and create .env
         run: |
-          rsync -avz --delete \
+          rsync -avz --delete --exclude '.env' \
             -e "ssh -o StrictHostKeyChecking=no" \
-            ./ root@${{ secrets.DO_HOST }}:/var/www/maktabah-online-dockerized
+            ./ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/var/www/<repo-name>/
+
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
+            cat > /var/www/<repo-name>/.env << EOL
+            JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
+            EOL
+            cd /var/www/<repo-name>
+            docker-compose down
+            docker-compose up -d --build
+          EOF
 
       - name: Restart app with Docker
         run: |

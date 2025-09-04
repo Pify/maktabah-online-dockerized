@@ -46,7 +46,7 @@ module.exports = {
         source: "Ulama Audio Series",
         isOld: true,
         shelfCategory: "Tawhid",
-        isBorrowed: true,
+        isBorrowed: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -121,7 +121,7 @@ module.exports = {
         source: "Personal Scan",
         isOld: true,
         shelfCategory: "Aqidah",
-        isBorrowed: true,
+        isBorrowed: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },

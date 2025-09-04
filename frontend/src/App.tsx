@@ -13,6 +13,7 @@ import BookEntryForm from './pages/BookEntryForm';
 import BookEntryDetail from './pages/BookEntryDetail';
 import BorrowManagementPage from './pages/BorrowManagementPage';
 import BorrowBookForm from './pages/BorrowBookForm';
+import Welcome from './pages/Welcome';
 
 function App() {
   const token = useAuthStore((s) => s.token);
@@ -43,39 +44,40 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={
+          <Route index element={<Welcome />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="dashboard" element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path='/books' element={
+          <Route path="books" element={
             <ProtectedRoute>
               <BrowseBooks />
             </ProtectedRoute>
           } />
-          <Route path='/books/create' element={
+          <Route path="books/create" element={
             <ProtectedRoute>
               <BookEntryForm />
             </ProtectedRoute>
           } />
-          <Route path='/books/edit/:id' element={
+          <Route path="books/edit/:id" element={
             <ProtectedRoute>
               <BookEntryForm />
             </ProtectedRoute>
           } />
-          <Route path='/books/:id' element={
+          <Route path="books/:id" element={
             <ProtectedRoute>
               <BookEntryDetail />
             </ProtectedRoute>
           } />
-          <Route path='/borrow-book-records/' element={
+          <Route path="borrow-book-records" element={
             <ProtectedRoute>
               <BorrowManagementPage />
             </ProtectedRoute>
           } />
-          <Route path='/borrow-book-records/create' element={
+          <Route path="borrow-book-records/create" element={
             <ProtectedRoute>
               <BorrowBookForm />
             </ProtectedRoute>

@@ -18,6 +18,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DO_SSH_KEY }}
 
+      - name: Test SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} echo "SSH connection successful"
+
       - name: Deploy code, create .env, and restart Docker
         run: |
           rsync -avz --delete --exclude '.env' \

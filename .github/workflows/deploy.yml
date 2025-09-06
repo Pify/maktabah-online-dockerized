@@ -22,12 +22,14 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} echo "SSH connection successful"
 
-      - name: Deploy code, create .env, and restart Docker
+      - name: Rsync repo to droplet
         run: |
           rsync -avz --delete --exclude '.env' \
             -e "ssh -o StrictHostKeyChecking=no" \
             ./ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/var/www/maktabah-online-dockerized
 
+      - name: Create/update .env file on droplet
+        run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
             cat > /var/www/maktabah-online-dockerized/.env << EOL
             JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
@@ -36,6 +38,11 @@ jobs:
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
             EOL
+          EOF
+
+      - name: Rebuild & restart Docker containers
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
             cd /var/www/maktabah-online-dockerized
             docker-compose down
             docker-compose up -d --build

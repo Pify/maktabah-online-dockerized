@@ -2,7 +2,13 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+
+# Use npm ci instead of npm install for CI/CD builds
+# - Faster, clean install
+# - Uses package-lock.json for deterministic builds
+# - Ensures deployments match local dev exactly
+RUN npm ci
+
 COPY . .
 RUN npm run build
 

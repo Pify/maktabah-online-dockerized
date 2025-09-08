@@ -63,7 +63,7 @@ function Login() {
 
     return (
         <div className="container d-flex flex-column p-2 border border-gray p-5 rounded">
-            <img src="assets/catto.jpg" alt="he cooks" style={{ width: '400px', height: '200px' }} />
+            <img src="assets/book.png" alt="book icon" style={{ width: '200px', height: '200px', alignSelf: 'center' }} />
             {message && (
                 <div className='alert alert-info container d-flex justify-content-between align-items-center'>
                     <div className="flex-grow-1 text-center">{message}</div>

@@ -3,10 +3,13 @@ services:
     build:
       context: ./frontend
     ports:
-       - "80:80"
+      - "80:80"
+      - "443:443"
     restart: unless-stopped
     depends_on:
       - backend
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt   # persist SSL certs
 
   backend:
     build:
